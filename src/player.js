@@ -54,6 +54,7 @@ export class Player {
         this.scene.add(leftHand, leftHandGrip, rightHand, rightHandGrip);
         this.user.position.set(0, 0, 0);
         this.user.name = "USER";
+        this.user.rotation.y = -0.1
         this.user.add(this.camera, leftHand, rightHand, leftHandGrip, rightHandGrip)
         this.scene.add(this.user)
     }
