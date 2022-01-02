@@ -40,7 +40,7 @@ export class Player {
         */
         this.user = new THREE.Group()
         /**
-        * @type {THREE.Group}
+        * @type {THREE.Vector3}
         */
         this.worldDirection = new THREE.Vector3()
     }
@@ -82,11 +82,17 @@ export class Player {
         const [, , xAxis, zAxis] = gamepad.axes
         if (!xAxis && !zAxis) return;
         this.renderer.xr.getCamera(this.camera).getWorldDirection(this.worldDirection)
+        console.log(this.worldDirection)
         switch (handedness) {
             case 'left':
-                this.user.position.x -= this.movementSpeed * xAxis;
-                this.user.position.z -= this.worldDirection.z * this.movementSpeed * zAxis;
-                break;
+                this.user.position.addScaledVector(this.worldDirection, this.movementSpeed * -zAxis)
+                if (this.worldDirection.z > 0) {
+                    this.user.position.x -= this.movementSpeed * xAxis; 
+                } else {
+                    this.user.position.x += this.movementSpeed * xAxis; 
+                }
+                this.user.position.y = 0
+                break;   
             case 'right':
                 this.user.rotateY(THREE.MathUtils.degToRad(this.rotationSpeed * -xAxis))
                 break;
